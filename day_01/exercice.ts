@@ -17,7 +17,7 @@ function getCalibrationValues(numbers: number) {
   return Number(numbersStr[0] + numbersStr.slice(-1));
 }
 
-function calculateTotal(lines: string[]) {
+function firstPart(lines: string[]) {
   const total: number[] = [];
 
   lines.forEach((word) => {
@@ -29,5 +29,39 @@ function calculateTotal(lines: string[]) {
   return total.reduce((acc, curr) => acc + curr, 0);
 }
 
-// ⭐️ First half
-console.log(calculateTotal(lines));
+//**************************** SECOND PART **************************** */
+
+const NUMBERS: Record<string, number> = {
+  one: 1,
+  two: 2,
+  three: 3,
+  four: 4,
+  five: 5,
+  six: 6,
+  seven: 7,
+  eight: 8,
+  nine: 9,
+};
+
+function replaceWordsWithNumbers(line: string) {
+  for (const numStr of Object.keys(NUMBERS)) {
+    line = line.replaceAll(numStr, String(NUMBERS[numStr]));
+  }
+  return line;
+}
+
+function secondPart(lines: string[]) {
+  const total: number[] = [];
+
+  for (let line of lines) {
+    line = replaceWordsWithNumbers(line);
+    const extractedNumber = extractNumbersFromString(line);
+    const calibrationValues = getCalibrationValues(extractedNumber);
+    total.push(calibrationValues);
+  }
+
+  return total.reduce((acc, curr) => acc + curr, 0);
+}
+
+console.log('⭐️ First Part : ', firstPart(lines));
+console.log('⭐️⭐️  Second Part : ', secondPart(lines));
